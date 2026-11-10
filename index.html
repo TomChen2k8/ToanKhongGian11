@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toán Hình Không Gian 11 - Chương IV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="loader-cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+            <p class="loader-text">Đang tải hình học không gian...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>TOÁN HÌNH KHÔNG GIAN 11</h1>
+                        <p class="subtitle">Chương IV: Quan hệ song song trong không gian — SGK Kết nối tri thức</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="btn-icon" title="Đổi giao diện">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-tabs" id="main-tabs">
+                <button class="nav-tab active" data-tab="bai10">
+                    <span class="tab-number">10</span>
+                    <span class="tab-title">Đường thẳng & Mặt phẳng</span>
+                </button>
+                <button class="nav-tab" data-tab="bai11">
+                    <span class="tab-number">11</span>
+                    <span class="tab-title">Hai đường thẳng song song</span>
+                </button>
+                <button class="nav-tab" data-tab="bai12">
+                    <span class="tab-number">12</span>
+                    <span class="tab-title">Đường thẳng // Mặt phẳng</span>
+                </button>
+                <button class="nav-tab" data-tab="bai13">
+                    <span class="tab-number">13</span>
+                    <span class="tab-title">Hai mặt phẳng song song</span>
+                </button>
+                <button class="nav-tab" data-tab="bai14">
+                    <span class="tab-number">14</span>
+                    <span class="tab-title">Phép chiếu song song</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Sub-tabs -->
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-subtab="theory">
+                    <i class="fas fa-book-open"></i> Lý thuyết
+                </button>
+                <button class="sub-tab" data-subtab="game">
+                    <i class="fas fa-gamepad"></i> Trò chơi
+                </button>
+                <button class="sub-tab" data-subtab="grading">
+                    <i class="fas fa-pen-fancy"></i> Chấm điểm AI
+                </button>
+            </div>
+
+            <!-- Content Panels -->
+            <div class="content-panels">
+
+                <!-- ========== BÀI 10 ========== -->
+                <div class="tab-panel active" id="panel-bai10">
+                    <!-- Theory -->
+                    <div class="sub-panel active" data-content="theory">
+                        <div class="theory-layout">
+                            <div class="theory-3d">
+                                <div class="scene-container" id="scene-bai10">
+                                    <div class="scene-controls">
+                                        <button class="scene-btn" data-action="reset" title="Reset"><i class="fas fa-undo"></i></button>
+                                        <button class="scene-btn" data-action="fullscreen" title="Toàn màn hình"><i class="fas fa-expand"></i></button>
+                                    </div>
+                                    <div class="scene-hint">🖱️ Kéo để xoay 360° · Điểm kéo được · Nét đứt tự động khi bị che khuất</div>
+                                </div>
+                            </div>
+                            <div class="theory-text">
+                                <h2><i class="fas fa-bookmark"></i> Bài 10: Đường thẳng và mặt phẳng trong không gian</h2>
+                                
+                                <div class="theory-section">
+                                    <h3>1. Khái niệm mở đầu</h3>
+                                    <div class="concept-card">
+                                        <p>Trong không gian, ngoài các điểm và đường thẳng còn có các <strong>mặt phẳng</strong>.</p>
+                                        <p>Mặt phẳng không có bề dày, không có giới hạn (kéo dài vô hạn về mọi phía).</p>
+                                        <p>Ta thường dùng hình bình hành để biểu diễn mặt phẳng và kí hiệu: <em>(α), (β), (P), (Q),...</em></p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>2. Các tính chất thừa nhận</h3>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <span class="property-badge">T1</span>
+                                            <p>Qua <strong>ba điểm không thẳng hàng</strong>, ta xác định được một và chỉ một mặt phẳng.</p>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-badge">T2</span>
+                                            <p>Nếu đường thẳng có <strong>hai điểm phân biệt</strong> thuộc mặt phẳng thì mọi điểm của đường thẳng đều thuộc mặt phẳng đó.</p>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-badge">T3</span>
+                                            <p>Nếu hai mặt phẳng phân biệt có <strong>một điểm chung</strong> thì chúng có thêm một điểm chung khác (và do đó có một đường thẳng chung gọi là <strong>giao tuyến</strong>).</p>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-badge">T4</span>
+                                            <p>Tồn tại <strong>bốn điểm không cùng thuộc</strong> một mặt phẳng.</p>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-badge">T5</span>
+                                            <p>Trên mỗi đường thẳng có ít nhất hai điểm, trong mỗi mặt phẳng có ít nhất ba điểm không thẳng hàng.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>3. Cách xác định mặt phẳng</h3>
+                                    <div class="concept-card highlight">
+                                        <ul>
+                                            <li>Qua <strong>3 điểm không thẳng hàng</strong></li>
+                                            <li>Qua <strong>1 đường thẳng và 1 điểm</strong> không thuộc đường thẳng đó</li>
+                                            <li>Qua <strong>2 đường thẳng cắt nhau</strong></li>
+                                            <li>Qua <strong>2 đường thẳng song song</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game -->
+                    <div class="sub-panel" data-content="game">
+                        <div class="game-area" id="game-bai10"></div>
+                    </div>
+
+                    <!-- Grading -->
+                    <div class="sub-panel" data-content="grading">
+                        <div class="grading-area" id="grading-bai10"></div>
+                    </div>
+                </div>
+
+                <!-- ========== BÀI 11 ========== -->
+                <div class="tab-panel" id="panel-bai11">
+                    <div class="sub-panel active" data-content="theory">
+                        <div class="theory-layout">
+                            <div class="theory-3d">
+                                <div class="scene-container" id="scene-bai11">
+                                    <div class="scene-controls">
+                                        <button class="scene-btn" data-action="reset" title="Reset"><i class="fas fa-undo"></i></button>
+                                        <button class="scene-btn" data-action="fullscreen" title="Toàn màn hình"><i class="fas fa-expand"></i></button>
+                                    </div>
+                                    <div class="scene-hint">🖱️ Kéo để xoay 360° · Cuộn để phóng · Nét đứt tự động khi bị che khuất</div>
+                                </div>
+                                <div class="scene-mode-btns">
+                                    <button class="mode-btn active" data-mode="parallel">Song song</button>
+                                    <button class="mode-btn" data-mode="intersect">Cắt nhau</button>
+                                    <button class="mode-btn" data-mode="skew">Chéo nhau</button>
+                                </div>
+                            </div>
+                            <div class="theory-text">
+                                <h2><i class="fas fa-bookmark"></i> Bài 11: Hai đường thẳng song song</h2>
+
+                                <div class="theory-section">
+                                    <h3>1. Vị trí tương đối của hai đường thẳng</h3>
+                                    <div class="concept-card">
+                                        <p>Hai đường thẳng phân biệt trong không gian có thể:</p>
+                                        <div class="position-grid">
+                                            <div class="pos-item">
+                                                <div class="pos-icon"><i class="fas fa-arrows-alt-h"></i></div>
+                                                <strong>Song song</strong>
+                                                <p>Cùng nằm trong 1 mp, không có điểm chung</p>
+                                            </div>
+                                            <div class="pos-item">
+                                                <div class="pos-icon"><i class="fas fa-times"></i></div>
+                                                <strong>Cắt nhau</strong>
+                                                <p>Cùng nằm trong 1 mp, có đúng 1 điểm chung</p>
+                                            </div>
+                                            <div class="pos-item">
+                                                <div class="pos-icon"><i class="fas fa-random"></i></div>
+                                                <strong>Chéo nhau</strong>
+                                                <p>Không cùng nằm trong bất kì mp nào</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>2. Định lí</h3>
+                                    <div class="theorem-card">
+                                        <div class="theorem-badge">Định lí 1</div>
+                                        <p>Qua một điểm nằm ngoài đường thẳng cho trước có <strong>một và chỉ một</strong> đường thẳng song song với đường thẳng đã cho.</p>
+                                    </div>
+                                    <div class="theorem-card">
+                                        <div class="theorem-badge">Định lí 2</div>
+                                        <p>Hai đường thẳng phân biệt cùng song song với đường thẳng thứ ba thì <strong>song song với nhau</strong>.</p>
+                                        <p class="formula">a // c và b // c ⟹ a // b</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>3. Định lí về giao tuyến</h3>
+                                    <div class="theorem-card">
+                                        <p>Nếu hai mặt phẳng phân biệt lần lượt chứa hai đường thẳng song song thì giao tuyến của chúng (nếu có) song song với hai đường thẳng đó hoặc trùng với một trong hai đường thẳng đó.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-panel" data-content="game">
+                        <div class="game-area" id="game-bai11"></div>
+                    </div>
+                    <div class="sub-panel" data-content="grading">
+                        <div class="grading-area" id="grading-bai11"></div>
+                    </div>
+                </div>
+
+                <!-- ========== BÀI 12 ========== -->
+                <div class="tab-panel" id="panel-bai12">
+                    <div class="sub-panel active" data-content="theory">
+                        <div class="theory-layout">
+                            <div class="theory-3d">
+                                <div class="scene-container" id="scene-bai12">
+                                    <div class="scene-controls">
+                                        <button class="scene-btn" data-action="reset" title="Reset"><i class="fas fa-undo"></i></button>
+                                        <button class="scene-btn" data-action="fullscreen" title="Toàn màn hình"><i class="fas fa-expand"></i></button>
+                                    </div>
+                                    <div class="scene-hint">🖱️ Kéo để xoay 360° · Cuộn để phóng · Nét đứt tự động khi bị che khuất</div>
+                                </div>
+                            </div>
+                            <div class="theory-text">
+                                <h2><i class="fas fa-bookmark"></i> Bài 12: Đường thẳng và mặt phẳng song song</h2>
+
+                                <div class="theory-section">
+                                    <h3>1. Định nghĩa</h3>
+                                    <div class="concept-card">
+                                        <p>Đường thẳng <em>d</em> gọi là <strong>song song</strong> với mặt phẳng <em>(α)</em> nếu <em>d</em> và <em>(α)</em> <strong>không có điểm chung</strong>.</p>
+                                        <p class="formula">d // (α) ⟺ d ∩ (α) = ∅</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>2. Điều kiện song song</h3>
+                                    <div class="theorem-card">
+                                        <div class="theorem-badge">Định lí 1</div>
+                                        <p>Nếu đường thẳng <em>d</em> không nằm trong mặt phẳng <em>(α)</em> và <em>d</em> song song với một đường thẳng <em>d'</em> nằm trong <em>(α)</em> thì <em>d</em> song song với <em>(α)</em>.</p>
+                                        <p class="formula">d ∉ (α), d' ⊂ (α), d // d' ⟹ d // (α)</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>3. Tính chất</h3>
+                                    <div class="theorem-card">
+                                        <div class="theorem-badge">Định lí 2</div>
+                                        <p>Nếu đường thẳng <em>d</em> song song với mặt phẳng <em>(α)</em> thì mọi mặt phẳng chứa <em>d</em> mà cắt <em>(α)</em> thì cắt theo <strong>giao tuyến song song</strong> với <em>d</em>.</p>
+                                        <p class="formula">d // (α), d ⊂ (β), (α) ∩ (β) = d' ⟹ d // d'</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>4. Ứng dụng</h3>
+                                    <div class="concept-card highlight">
+                                        <p><strong>Ví dụ:</strong> Trong hình chóp S.ABCD, gọi M, N lần lượt là trung điểm SA, SB. Chứng minh MN // (ABCD).</p>
+                                        <p><em>Giải:</em> MN là đường trung bình tam giác SAB nên MN // AB. Mà AB ⊂ (ABCD), MN ∉ (ABCD) ⟹ MN // (ABCD).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-panel" data-content="game">
+                        <div class="game-area" id="game-bai12"></div>
+                    </div>
+                    <div class="sub-panel" data-content="grading">
+                        <div class="grading-area" id="grading-bai12"></div>
+                    </div>
+                </div>
+
+                <!-- ========== BÀI 13 ========== -->
+                <div class="tab-panel" id="panel-bai13">
+                    <div class="sub-panel active" data-content="theory">
+                        <div class="theory-layout">
+                            <div class="theory-3d">
+                                <div class="scene-container" id="scene-bai13">
+                                    <div class="scene-controls">
+                                        <button class="scene-btn" data-action="reset" title="Reset"><i class="fas fa-undo"></i></button>
+                                        <button class="scene-btn" data-action="fullscreen" title="Toàn màn hình"><i class="fas fa-expand"></i></button>
+                                    </div>
+                                    <div class="scene-hint">🖱️ Kéo để xoay 360° · Cuộn để phóng · Nét đứt tự động khi bị che khuất</div>
+                                </div>
+                            </div>
+                            <div class="theory-text">
+                                <h2><i class="fas fa-bookmark"></i> Bài 13: Hai mặt phẳng song song</h2>
+
+                                <div class="theory-section">
+                                    <h3>1. Định nghĩa</h3>
+                                    <div class="concept-card">
+                                        <p>Hai mặt phẳng <em>(α)</em> và <em>(β)</em> gọi là <strong>song song</strong> nếu chúng không có điểm chung.</p>
+                                        <p class="formula">(α) // (β) ⟺ (α) ∩ (β) = ∅</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>2. Điều kiện song song</h3>
+                                    <div class="theorem-card">
+                                        <div class="theorem-badge">Định lí 1</div>
+                                        <p>Nếu mặt phẳng <em>(α)</em> chứa hai đường thẳng cắt nhau <em>a</em> và <em>b</em> cùng song song với mặt phẳng <em>(β)</em> thì <em>(α)</em> song song với <em>(β)</em>.</p>
+                                        <p class="formula">a ∩ b = {M}, a ⊂ (α), b ⊂ (α), a // (β), b // (β) ⟹ (α) // (β)</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>3. Tính chất</h3>
+                                    <div class="theorem-card">
+                                        <div class="theorem-badge">Định lí 2</div>
+                                        <p>Nếu hai mặt phẳng song song cùng bị cắt bởi một mặt phẳng thứ ba thì hai giao tuyến song song với nhau.</p>
+                                    </div>
+                                    <div class="theorem-card">
+                                        <div class="theorem-badge">Định lí 3</div>
+                                        <p>Nếu hai mặt phẳng <em>(α)</em> và <em>(β)</em> song song với nhau thì mọi đường thẳng nằm trong <em>(α)</em> đều song song với <em>(β)</em>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>4. Hình lăng trụ và hình hộp</h3>
+                                    <div class="concept-card highlight">
+                                        <p><strong>Hình lăng trụ:</strong> Hai đáy là hai đa giác bằng nhau nằm trên hai mặt phẳng song song, các cạnh bên song song và bằng nhau.</p>
+                                        <p><strong>Hình hộp:</strong> Là hình lăng trụ có đáy là hình bình hành.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-panel" data-content="game">
+                        <div class="game-area" id="game-bai13"></div>
+                    </div>
+                    <div class="sub-panel" data-content="grading">
+                        <div class="grading-area" id="grading-bai13"></div>
+                    </div>
+                </div>
+
+                <!-- ========== BÀI 14 ========== -->
+                <div class="tab-panel" id="panel-bai14">
+                    <div class="sub-panel active" data-content="theory">
+                        <div class="theory-layout">
+                            <div class="theory-3d">
+                                <div class="scene-container" id="scene-bai14">
+                                    <div class="scene-controls">
+                                        <button class="scene-btn" data-action="reset" title="Reset"><i class="fas fa-undo"></i></button>
+                                        <button class="scene-btn" data-action="fullscreen" title="Toàn màn hình"><i class="fas fa-expand"></i></button>
+                                    </div>
+                                    <div class="scene-hint">🖱️ Kéo để xoay 360° · Cuộn để phóng · Nét đứt tự động khi bị che khuất</div>
+                                </div>
+                                <div class="scene-mode-btns">
+                                    <button class="mode-btn active" data-mode="project">Chiếu điểm</button>
+                                    <button class="mode-btn" data-mode="triangle">Chiếu tam giác</button>
+                                </div>
+                            </div>
+                            <div class="theory-text">
+                                <h2><i class="fas fa-bookmark"></i> Bài 14: Phép chiếu song song</h2>
+
+                                <div class="theory-section">
+                                    <h3>1. Định nghĩa</h3>
+                                    <div class="concept-card">
+                                        <p>Cho mặt phẳng <em>(α)</em> và đường thẳng <em>l</em> cắt <em>(α)</em>. Với mỗi điểm M trong không gian, đường thẳng qua M song song hoặc trùng với <em>l</em> cắt <em>(α)</em> tại điểm M'. Điểm M' gọi là <strong>hình chiếu song song</strong> của M trên <em>(α)</em> theo phương <em>l</em>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>2. Tính chất</h3>
+                                    <div class="property-list">
+                                        <div class="property-item">
+                                            <span class="property-badge">TC1</span>
+                                            <p>Phép chiếu song song biến <strong>đường thẳng</strong> thành đường thẳng, biến <strong>tia</strong> thành tia, biến <strong>đoạn thẳng</strong> thành đoạn thẳng.</p>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-badge">TC2</span>
+                                            <p>Phép chiếu song song biến <strong>hai đường thẳng song song</strong> thành hai đường thẳng song song (hoặc trùng nhau).</p>
+                                        </div>
+                                        <div class="property-item">
+                                            <span class="property-badge">TC3</span>
+                                            <p>Phép chiếu song song <strong>bảo toàn tỉ số</strong> của hai đoạn thẳng nằm trên hai đường thẳng song song hoặc cùng nằm trên một đường thẳng.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="theory-section">
+                                    <h3>3. Hình biểu diễn</h3>
+                                    <div class="concept-card highlight">
+                                        <p>Hình biểu diễn của một hình H trong không gian là hình chiếu song song của hình H trên một mặt phẳng theo một phương chiếu nào đó.</p>
+                                        <p><strong>Quy tắc:</strong></p>
+                                        <ul>
+                                            <li>Hình biểu diễn của đường thẳng là đường thẳng</li>
+                                            <li>Hình biểu diễn giữ nguyên tính song song</li>
+                                            <li>Hình biểu diễn giữ nguyên tỉ số độ dài của hai đoạn thẳng song song hoặc cùng nằm trên một đường thẳng</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-panel" data-content="game">
+                        <div class="game-area" id="game-bai14"></div>
+                    </div>
+                    <div class="sub-panel" data-content="grading">
+                        <div class="grading-area" id="grading-bai14"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating MATH-SAFE AI Chatbot Trigger Button -->
+    <button id="chatbot-toggle-btn" class="chatbot-trigger-btn" title="Mở Trợ lý Sư phạm MATH-SAFE AI">
+        <i class="fas fa-brain"></i>
+        <span>MATH-SAFE AI</span>
+        <span class="ai-badge">Trợ lý gợi mở</span>
+    </button>
+
+    <!-- Floating Chatbot Panel -->
+    <div id="chatbot-panel" class="chatbot-panel">
+        <div class="chatbot-header">
+            <div class="chatbot-header-info">
+                <div class="chatbot-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <div class="chatbot-title">MATH-SAFE AI</div>
+                    <div class="chatbot-subtitle">Trợ lý tư duy gợi mở sư phạm (M1 - M5)</div>
+                </div>
+            </div>
+            <button id="btn-close-chatbot" class="btn-close-chat" title="Đóng">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-bubble bot">
+                <span class="math-tag">Khởi động tư duy</span>
+                <p>Chào bạn! Mình là <strong>MATH-SAFE AI</strong> - trợ lý học tập môn Toán Hình 11 do <em>nhóm nghiên cứu</em> phát triển.</p>
+                <p style="margin-top:6px;">Mình sẽ không giải bài hộ ngay mà đồng hành cùng bạn qua các câu hỏi gợi mở để bạn tự khám phá lời giải. Bạn đang gặp vướng mắc ở bài nào?</p>
+            </div>
+        </div>
+
+        <!-- Quick Prompt Chips -->
+        <div class="chat-chips">
+            <button class="chip-btn" data-prompt="Làm sao để chứng minh đường thẳng song song mặt phẳng?">Đường // Mặt phẳng</button>
+            <button class="chip-btn" data-prompt="Cách tìm giao tuyến của hai mặt phẳng phân biệt?">Tìm giao tuyến</button>
+            <button class="chip-btn" data-prompt="Phép chiếu song song bảo toàn những yếu tố nào?">Phép chiếu song song</button>
+            <button class="chip-btn" data-prompt="Khi nào hai đường thẳng trong không gian chéo nhau?">Đường thẳng chéo nhau</button>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="chat-input-bar">
+            <input type="text" id="chat-input" placeholder="Nhập câu hỏi hoặc bài toán bạn cần hướng dẫn..." autocomplete="off">
+            <button id="btn-send-chat" class="btn-send-chat" title="Gửi câu hỏi">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-container"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Nhóm nghiên cứu <strong>MATH-SAFE AI</strong> · Toán Hình Không Gian 11 — SGK Kết nối tri thức</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="js/three-scenes.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/grading.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
