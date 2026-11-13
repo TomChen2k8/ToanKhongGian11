@@ -89,6 +89,9 @@
                 <button class="sub-tab" data-subtab="grading">
                     <i class="fas fa-pen-fancy"></i> Chấm điểm AI
                 </button>
+                <button class="sub-tab" data-subtab="bilingual">
+                    <i class="fas fa-language"></i> Song ngữ (Bilingual)
+                </button>
             </div>
 
             <!-- Content Panels -->
@@ -110,6 +113,32 @@
                             </div>
                             <div class="theory-text">
                                 <h2><i class="fas fa-bookmark"></i> Bài 10: Đường thẳng và mặt phẳng trong không gian</h2>
+                                
+                                <!-- Bilingual Highlight Callout Card -->
+                                <div class="bilingual-theory-callout">
+                                    <div class="callout-header">
+                                        <div class="callout-icon"><i class="fas fa-globe-americas"></i></div>
+                                        <div>
+                                            <h4>Chuyên Đề Song Ngữ: Khám Phá & Luyện Tập Toán Không Gian</h4>
+                                            <p style="font-size:13px; color:var(--text-secondary); margin:0;">Giáo viên giới thiệu thuật ngữ & Học sinh thực hiện nhiệm vụ bằng tiếng Anh - Việt</p>
+                                        </div>
+                                    </div>
+                                    <div class="callout-terms-badges">
+                                        <span class="term-badge-tag"><strong>Point</strong> (Điểm)</span>
+                                        <span class="term-badge-tag"><strong>Line</strong> (Đường thẳng)</span>
+                                        <span class="term-badge-tag"><strong>Plane</strong> (Mặt phẳng)</span>
+                                        <span class="term-badge-tag"><strong>Space geometry</strong> (Hình học không gian)</span>
+                                        <span class="term-badge-tag"><strong>Intersection</strong> (Giao điểm/Giao tuyến)</span>
+                                        <span class="term-badge-tag"><strong>Belong to</strong> (Thuộc)</span>
+                                    </div>
+                                    <ul class="callout-tasks-list">
+                                        <li>🎯 <strong>Khám phá (Exploration):</strong> “Identify the relationship between points, lines and planes” (Xác định mối quan hệ giữa điểm, đường thẳng và mặt phẳng).</li>
+                                        <li>🎯 <strong>Luyện tập (Practice):</strong> “Determine the intersection of a line and a plane” (Xác định giao điểm của đường thẳng và mặt phẳng).</li>
+                                    </ul>
+                                    <button class="btn-open-bilingual" onclick="App.activateSubTab('bilingual')">
+                                        <i class="fas fa-graduation-cap"></i> Mở Phòng Khám Phá & Luyện Tập Song Ngữ
+                                    </button>
+                                </div>
                                 
                                 <div class="theory-section">
                                     <h3>1. Khái niệm mở đầu</h3>
@@ -170,6 +199,9 @@
                     <div class="sub-panel" data-content="grading">
                         <div class="grading-area" id="grading-bai10"></div>
                     </div>
+
+                    <!-- Bilingual -->
+                    <div class="sub-panel" data-content="bilingual" id="bilingual-bai10"></div>
                 </div>
 
                 <!-- ========== BÀI 11 ========== -->
@@ -245,6 +277,7 @@
                     <div class="sub-panel" data-content="grading">
                         <div class="grading-area" id="grading-bai11"></div>
                     </div>
+                    <div class="sub-panel" data-content="bilingual" id="bilingual-bai11"></div>
                 </div>
 
                 <!-- ========== BÀI 12 ========== -->
@@ -305,6 +338,7 @@
                     <div class="sub-panel" data-content="grading">
                         <div class="grading-area" id="grading-bai12"></div>
                     </div>
+                    <div class="sub-panel" data-content="bilingual" id="bilingual-bai12"></div>
                 </div>
 
                 <!-- ========== BÀI 13 ========== -->
@@ -368,6 +402,7 @@
                     <div class="sub-panel" data-content="grading">
                         <div class="grading-area" id="grading-bai13"></div>
                     </div>
+                    <div class="sub-panel" data-content="bilingual" id="bilingual-bai13"></div>
                 </div>
 
                 <!-- ========== BÀI 14 ========== -->
@@ -436,6 +471,7 @@
                     <div class="sub-panel" data-content="grading">
                         <div class="grading-area" id="grading-bai14"></div>
                     </div>
+                    <div class="sub-panel" data-content="bilingual" id="bilingual-bai14"></div>
                 </div>
             </div>
         </div>
@@ -475,10 +511,11 @@
 
         <!-- Quick Prompt Chips -->
         <div class="chat-chips">
+            <button class="chip-btn" data-prompt="Giới thiệu 6 thuật ngữ song ngữ: Point, Line, Plane, Space geometry, Intersection, Belong to">Thuật ngữ Song ngữ</button>
+            <button class="chip-btn" data-prompt="Hướng dẫn nhiệm vụ: Identify the relationship between points, lines and planes">Quan hệ Điểm-Đường-Mặt</button>
+            <button class="chip-btn" data-prompt="Phương pháp giải: Determine the intersection of a line and a plane">Tìm giao điểm Đường & Mặt</button>
             <button class="chip-btn" data-prompt="Làm sao để chứng minh đường thẳng song song mặt phẳng?">Đường // Mặt phẳng</button>
             <button class="chip-btn" data-prompt="Cách tìm giao tuyến của hai mặt phẳng phân biệt?">Tìm giao tuyến</button>
-            <button class="chip-btn" data-prompt="Phép chiếu song song bảo toàn những yếu tố nào?">Phép chiếu song song</button>
-            <button class="chip-btn" data-prompt="Khi nào hai đường thẳng trong không gian chéo nhau?">Đường thẳng chéo nhau</button>
         </div>
 
         <!-- Chat Input Bar -->
@@ -507,6 +544,7 @@
     <script src="js/three-scenes.js"></script>
     <script src="js/games.js"></script>
     <script src="js/grading.js"></script>
+    <script src="js/bilingual.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

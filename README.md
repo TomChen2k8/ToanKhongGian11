@@ -17,7 +17,7 @@ Tích hợp công nghệ mô phỏng không gian 3D tương tác (Three.js), h�
 
 ---
 
-### 2. Mỗi bài học gồm 3 phân hệ tương tác:
+### 2. Mỗi bài học gồm 4 phân hệ tương tác:
 
 #### 📐 Phân hệ 1: Lý thuyết SGK & Không gian 3D tương tác
 - Mô hình 3D trực quan dựng bằng **Three.js** chuẩn xác tỉ lệ toán học.
@@ -26,7 +26,22 @@ Tích hợp công nghệ mô phỏng không gian 3D tương tác (Three.js), h�
 - Chế độ chuyển đổi góc nhìn (Song song / Cắt nhau / Chéo nhau, Chiếu điểm / Chiếu tam giác).
 - Hỗ trợ xem toàn màn hình (Fullscreen) và Reset góc nhìn mặc định.
 
-#### 🎮 Phân hệ 2: Trò chơi tương tác (Mini-Games)
+#### 🌐 Phân hệ 2: Chuyên đề Khám phá & Luyện tập Song ngữ (Bilingual Geometry)
+- **Dành cho Giáo viên**:
+  - Giới thiệu 6 thuật ngữ toán học không gian nền tảng bằng tiếng Anh và tiếng Việt:
+    1. **Point** (Điểm)
+    2. **Line** (Đường thẳng)
+    3. **Plane** (Mặt phẳng)
+    4. **Space geometry** (Hình học không gian)
+    5. **Intersection** (Giao điểm / Giao tuyến)
+    6. **Belong to** (Thuộc: $\in, \notin, \subset$)
+  - Tích hợp phát âm giọng đọc bản ngữ chuẩn bằng **Web Speech API** (nút bấm loa từng từ và đọc mẫu toàn bộ).
+  - Thẻ từ vựng tương tác, quy ước ký hiệu toán học quốc tế và bảng tổng hợp đối sánh.
+- **Dành cho Học sinh**:
+  - **Hoạt động Khám phá (Exploration Activity)**: Thực hiện nhiệm vụ **“Identify the relationship between points, lines and planes”** (Xác định mối quan hệ giữa điểm, đường thẳng và mặt phẳng) trên mô hình hình học 3D tương tác (chóp $S.ABCD$), tra cứu quan hệ (Inspector) và hoàn thành bộ 5 câu hỏi tình huống có chấm điểm trực tiếp.
+  - **Hoạt động Luyện tập (Practice Activity)**: Thực hiện nhiệm vụ **“Determine the intersection of a line and a plane”** (Xác định giao điểm của đường thẳng và mặt phẳng) với quy tắc 3 bước chuẩn SGK, thực hành 3 bài toán từ cơ bản đến nâng cao (hình chóp đáy bình hành, tứ diện, hình chóp đáy hình thang) kèm giải thuật từng bước và phản hồi tương tác sinh động.
+
+#### 🎮 Phân hệ 3: Trò chơi tương tác (Mini-Games)
 - **Bài 10**: *Thử Thách Xác Định Mặt Phẳng* — 5 câu hỏi tình huống không gian rèn luyện phản xạ tính chất thừa nhận.
 - **Bài 11**: *Đấu Trí Vị Trí Tương Đối* — Phân loại đường thẳng song song, cắt nhau và chéo nhau trong hình chóp & tứ diện.
 - **Bài 12**: *Đúng Hay Sai: Bẫy Hình Học Không Gian* — Rèn luyện khả năng nhận diện các mệnh đề bẫy phổ biến trong đề thi.
@@ -34,7 +49,7 @@ Tích hợp công nghệ mô phỏng không gian 3D tương tác (Three.js), h�
 - **Bài 14**: *Bậc Thầy Phép Chiếu Song Song* — Khám phá các tính chất bất biến của phép chiếu song song và hình biểu diễn.
 - Tích hợp hiệu ứng âm thanh sống động bằng **Web Audio API** (không cần tải file âm thanh ngoài).
 
-#### 📝 Phân hệ 3: Chấm điểm tự luận bằng Gemini AI
+#### 📝 Phân hệ 4: Chấm điểm tự luận bằng Gemini AI
 - Tải ảnh bài làm tự luận (chụp từ vở bài tập, đề kiểm tra hoặc dùng chức năng *Thử nghiệm với bài mẫu*).
 - Gọi **Google Gemini API** (`gemini-2.0-flash` / `gemini-1.5-flash`) để phân tích chữ viết, hình vẽ và lập luận toán học.
 - **Bảng điểm chi tiết 4 tiêu chí khắt khe theo chuẩn THPT**:
@@ -69,23 +84,23 @@ Mở file `index.html` bằng bất kỳ trình duyệt hiện đại nào (Chro
 
 ---
 
-## 🔑 HƯỚNG DẪN THAY ĐỔI GEMINI API TRONG SOURCE CODE
-Để thay đổi API, bạn mở trực tiếp tệp:
+## 🔑 HƯỚNG DẪN THAY ĐỔI CẤU HÌNH AI TRONG SOURCE CODE
+Để thay đổi API, mô hình hoặc endpoint, bạn mở trực tiếp tệp:
 👉 [`js/config.js`](file:///d:/Download/DuAn/ToanKhongGian11/js/config.js)
 
 ```javascript
 const CONFIG = {
-    // 1. Dán API Key Google Gemini của bạn vào đây:
-    GEMINI_API_KEY: "AIzaSy...", 
+    // 1. API Key:
+    API_KEY: "sk-xt-8e4a9267a1c801524fbf3ec6fb2bc8262dae92b36fb53213",
 
     // 2. Tên mô hình AI:
-    GEMINI_MODEL: "gemini-2.0-flash",
+    MODEL: "mistralai/mistral-medium-3.5",
 
-    // 3. Endpoint Gemini:
-    GEMINI_ENDPOINT: "https://generativelanguage.googleapis.com/v1beta/models"
+    // 3. Base URL endpoint (chuẩn OpenAI API):
+    BASE_URL: "https://api.xkiro.com/v1"
 };
 ```
-Cả **Trợ lý MATH-SAFE AI** và **Phân hệ Chấm điểm tự luận** sẽ tự động nhận API Key này từ tệp cấu hình duy nhất.
+Cả **Trợ lý MATH-SAFE AI** và **Phân hệ Chấm điểm tự luận** sẽ tự động nhận cấu hình này từ tệp cấu hình duy nhất.
 
 ---
 
@@ -98,11 +113,12 @@ ToanKhongGian11/
 ├── css/
 │   └── styles.css          # Hệ thống giao diện hiện đại, Dark/Light mode, hiệu ứng
 └── js/
-    ├── config.js           # 🔑 NƠI THAY ĐỔI API GEMINI & MÔ HÌNH TOÀN DỰ ÁN
+    ├── config.js           # 🔑 NƠI THAY ĐỔI API AI & MÔ HÌNH TOÀN DỰ ÁN
     ├── app.js              # Điều phối ứng dụng, tabs, giao diện & MATH-SAFE AI
+    ├── bilingual.js        # 🌐 Phân hệ song ngữ: Thuật ngữ GV, Khám phá & Luyện tập HS
     ├── three-scenes.js     # Đồ họa Three.js 3D tương tác cho 5 bài học
     ├── games.js            # 5 trò chơi mô phỏng 3D/Canvas tương tác thời gian thực
-    └── grading.js          # Hệ thống chấm điểm tự luận bằng Gemini AI
+    └── grading.js          # Hệ thống chấm điểm tự luận bằng AI
 ```
 
 ---

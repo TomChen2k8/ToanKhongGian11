@@ -1,20 +1,24 @@
 /**
  * =========================================================================
- * 🔑 CẤU HÌNH API GEMINI TOÀN BỘ WEBSITE (THAY ĐỔI API TẠI ĐÂY)
+ * 🔑 CẤU HÌNH API AI TOÀN BỘ WEBSITE (THAY ĐỔI API TẠI ĐÂY)
  * =========================================================================
- * Để thay đổi API, bạn chỉ cần dán API Key của mình vào GEMINI_API_KEY dưới đây:
+ * Cấu hình endpoint, model và API key cho toàn bộ website (MATH-SAFE Chat & Chấm điểm tự luận)
  */
 
 const CONFIG = {
-    // 👉 1. DÁN API KEY GEMINI CỦA BẠN VÀO GIỮA CẶP DẤU NGOẶC KÉP NÀY:
-    GEMINI_API_KEY: "AQ.Ab8RN6KVw1833p14R7lKgqhCWbEe5L90ld13Vh22JWbcmq_ORw",
+    // 👉 1. API KEY:
+    API_KEY: "sk-xt-8e4a9267a1c801524fbf3ec6fb2bc8262dae92b36fb53213",
 
-    // 👉 2. TÊN MÔ HÌNH GEMINI (Mặc định: gemini-2.0-flash):
-    // Có thể chọn: "gemini-2.0-flash" | "gemini-1.5-flash" | "gemini-1.5-pro"
-    GEMINI_MODEL: "gemini-2.0-flash",
+    // 👉 2. TÊN MÔ HÌNH AI:
+    MODEL: "mistralai/mistral-medium-3.5",
 
-    // 👉 3. ĐỊA CHỈ ENDPOINT GEMINI (Nếu dùng proxy/backend riêng thì đổi ở đây):
-    GEMINI_ENDPOINT: "https://generativelanguage.googleapis.com/v1beta/models"
+    // 👉 3. ĐỊA CHỈ BASE URL API (Chuẩn OpenAI API):
+    BASE_URL: "https://api.xkiro.com/v1",
+
+    // Các trường tương thích ngược:
+    GEMINI_API_KEY: "sk-xt-8e4a9267a1c801524fbf3ec6fb2bc8262dae92b36fb53213",
+    GEMINI_MODEL: "mistralai/mistral-medium-3.5",
+    GEMINI_ENDPOINT: "https://api.xkiro.com/v1"
 };
 
 // Xuất ra phạm vi toàn cục

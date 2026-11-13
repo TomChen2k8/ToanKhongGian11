@@ -133,6 +133,10 @@ const App = {
             Games.init(this.currentLesson);
         } else if (subType === 'grading') {
             Grading.init(this.currentLesson);
+        } else if (subType === 'bilingual') {
+            if (window.Bilingual && typeof window.Bilingual.init === 'function') {
+                Bilingual.init(this.currentLesson);
+            }
         }
     },
 
@@ -226,17 +230,17 @@ const App = {
         container.scrollTop = container.scrollHeight;
 
         // Lấy API Key từ file config.js hoặc localStorage
-        const geminiKey = (window.CONFIG && window.CONFIG.GEMINI_API_KEY) || localStorage.getItem('gemini_api_key');
+        const apiKey = (window.CONFIG && (window.CONFIG.API_KEY || window.CONFIG.GEMINI_API_KEY)) || localStorage.getItem('ai_api_key') || localStorage.getItem('gemini_api_key');
 
-        // Nếu có API Key, dùng Gemini với System Prompt chuẩn của MATH-SAFE AI
-        if (geminiKey) {
+        // Nếu có API Key, dùng AI với System Prompt chuẩn của MATH-SAFE AI
+        if (apiKey) {
             try {
-                const aiResponse = await this.callGeminiChat(userInput, geminiKey);
+                const aiResponse = await this.callAIChat(userInput, apiKey);
                 typingBubble.remove();
                 this.appendChatBubble('bot', aiResponse, 'Gợi mở MATH-SAFE AI');
                 return;
             } catch (err) {
-                console.warn('Lỗi gọi Gemini cho chatbot, chuyển sang luật sư phạm cục bộ:', err);
+                console.warn('Lỗi gọi AI cho chatbot, chuyển sang luật sư phạm cục bộ:', err);
             }
         }
 
@@ -248,8 +252,8 @@ const App = {
         }, 800);
     },
 
-    // Gọi Gemini API kèm system prompt MATH-SAFE AI
-    async callGeminiChat(userText, key) {
+    // Gọi AI API (OpenAI-compatible) kèm system prompt MATH-SAFE AI
+    async callAIChat(userText, key) {
         const systemInstruction = `
 Bạn là MATH-SAFE AI - trợ lý môn Toán THPT chuyên hình học không gian 11 SGK Kết nối tri thức.
 Mục tiêu của bạn KHÔNG PHẢI LÀM BÀI THAY người dùng, mà giúp người dùng từng bước phát triển tư duy giải quyết vấn đề toán học qua câu hỏi gợi mở, phản hồi chẩn đoán và tự kiểm chứng.
@@ -267,21 +271,37 @@ NGUYÊN TẮC:
 5. Ngôn ngữ ngắn, rõ, chuẩn sư phạm Việt Nam. Mỗi câu trả lời dưới 80 từ, tập trung vào 1 câu hỏi gợi mở.
         `;
 
-        const selectedModel = (window.CONFIG && window.CONFIG.GEMINI_MODEL) || localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
-        const apiBase = (window.CONFIG && window.CONFIG.GEMINI_ENDPOINT) || 'https://generativelanguage.googleapis.com/v1beta/models';
-        const endpoint = `${apiBase}/${selectedModel}:generateContent?key=${key}`;
+        const selectedModel = (window.CONFIG && (window.CONFIG.MODEL || window.CONFIG.GEMINI_MODEL)) || localStorage.getItem('ai_model') || 'mistralai/mistral-medium-3.5';
+        const apiBase = (window.CONFIG && (window.CONFIG.BASE_URL || window.CONFIG.GEMINI_ENDPOINT)) || 'https://api.xkiro.com/v1';
+        const endpoint = `${apiBase.replace(/\/+$/, '')}/chat/completions`;
+
         const resp = await fetch(endpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            },
             body: JSON.stringify({
-                system_instruction: { parts: [{ text: systemInstruction }] },
-                contents: [{ parts: [{ text: userText }] }]
+                model: selectedModel,
+                messages: [
+                    { role: 'system', content: systemInstruction },
+                    { role: 'user', content: userText }
+                ],
+                temperature: 0.7
             })
         });
 
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        if (!resp.ok) {
+            const errText = await resp.text();
+            throw new Error(`HTTP ${resp.status}: ${errText}`);
+        }
         const data = await resp.json();
-        return data.candidates[0].content.parts[0].text;
+        return data.choices[0].message.content;
+    },
+
+    // Giữ hàm callGeminiChat để đảm bảo tương thích ngược
+    async callGeminiChat(userText, key) {
+        return this.callAIChat(userText, key);
     },
 
     // Logic sư phạm dựa trên luật bám sát tài liệu
@@ -328,7 +348,31 @@ NGUYÊN TẮC:
             };
         }
 
-        // 6. Trả lời chung bám theo quy trình MATH
+        // 6. Thuật ngữ song ngữ (Point, Line, Plane, Space geometry, Intersection, Belong to)
+        if (lower.includes('thuật ngữ') || lower.includes('song ngữ') || lower.includes('bilingual') || lower.includes('point') || lower.includes('belong')) {
+            return {
+                stage: 'Thuật ngữ Song ngữ',
+                text: '6 thuật ngữ nền tảng bằng tiếng Anh:<br>• <strong>Point</strong> (/pɔɪnt/): Điểm (A, B, C...)<br>• <strong>Line</strong> (/laɪn/): Đường thẳng (d, AB...)<br>• <strong>Plane</strong> (/pleɪn/): Mặt phẳng ((P), (α)...)<br>• <strong>Space geometry</strong>: Hình học không gian (3D)<br>• <strong>Intersection</strong>: Giao điểm (d ∩ (P) = {I}) / Giao tuyến ((P) ∩ (Q) = a)<br>• <strong>Belong to</strong>: Thuộc (∈, ∉, ⊂).<br>Em có thể mở tab <strong>Song ngữ (Bilingual)</strong> ở Bài 10 để nghe đọc mẫu và luyện tập nhé!'
+            };
+        }
+
+        // 7. Xác định mối quan hệ giữa điểm, đường thẳng và mặt phẳng
+        if (lower.includes('quan hệ') || lower.includes('relationship')) {
+            return {
+                stage: 'Khám phá (M1 - M2)',
+                text: 'Để xác định mối quan hệ (Identify relationship):<br>1. Giữa <strong>Điểm và Đường/Mặt</strong>: Ta dùng quan hệ thuộc (∈) hoặc không thuộc (∉).<br>2. Giữa <strong>Đường thẳng và Mặt phẳng</strong>: Đường thẳng có thể nằm trong (⊂), cắt nhau có 1 điểm chung (∩), hoặc song song (//).<br>Trong bài toán của em, điểm hay đường thẳng nào cần xác định vị trí?'
+            };
+        }
+
+        // 8. Xác định giao điểm của đường thẳng và mặt phẳng (Determine the intersection of a line and a plane)
+        if (lower.includes('giao điểm') || lower.includes('intersection of a line')) {
+            return {
+                stage: 'Phương pháp 3 bước (M2 - M3)',
+                text: 'Quy tắc 3 bước xác định giao điểm của đường thẳng d và mp(α):<br>• <strong>Bước 1:</strong> Chọn mp phụ (β) chứa d.<br>• <strong>Bước 2:</strong> Tìm giao tuyến a = (α) ∩ (β).<br>• <strong>Bước 3:</strong> Trong (β), tìm I = d ∩ a ⟹ I = d ∩ (α).<br>Em đã tìm được mặt phẳng phụ nào chứa d chưa?'
+            };
+        }
+
+        // 9. Trả lời chung bám theo quy trình MATH
         return {
             stage: 'Nhận diện (M1)',
             text: 'Một câu hỏi rất hay! Để giải quyết vấn đề này, trước hết em hãy cho thầy/cô biết: <strong>Đề bài đã cho giả thiết gì</strong> và <strong>mục tiêu cần chứng minh/tìm kiếm</strong> là gì?'

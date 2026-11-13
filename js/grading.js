@@ -1,11 +1,11 @@
 /**
- * TOÁN HÌNH KHÔNG GIAN 11 - CHẤM ĐIỂM TỰ LUẬN BẰNG GEMINI AI
- * Tải ảnh bài làm tự luận, gọi Gemini API phân tích và chấm điểm chi tiết 4 tiêu chí
+ * TOÁN HÌNH KHÔNG GIAN 11 - CHẤM ĐIỂM TỰ LUẬN BẰNG AI
+ * Tải ảnh bài làm tự luận, gọi AI API phân tích và chấm điểm chi tiết 4 tiêu chí
  * Hỗ trợ demo bài mẫu, lưu trữ API key an toàn trong localStorage
  */
 
 const Grading = {
-    apiKey: (window.CONFIG && window.CONFIG.GEMINI_API_KEY) || localStorage.getItem('gemini_api_key') || '',
+    apiKey: (window.CONFIG && (window.CONFIG.API_KEY || window.CONFIG.GEMINI_API_KEY)) || localStorage.getItem('ai_api_key') || localStorage.getItem('gemini_api_key') || '',
     currentLesson: 'bai10',
     selectedFile: null,
     base64Image: null,
@@ -48,7 +48,7 @@ const Grading = {
                     <img id="preview-img-${lessonId}" class="preview-image" alt="Ảnh bài làm">
                     <div style="margin-top:14px;">
                         <button class="btn-grade" id="btn-submit-grade-${lessonId}">
-                            <i class="fas fa-robot"></i> Chấm điểm chi tiết với Gemini AI
+                            <i class="fas fa-robot"></i> Chấm điểm chi tiết với Math-Safe AI
                         </button>
                         <button class="btn-change-image" id="btn-change-img-${lessonId}">
                             <i class="fas fa-sync-alt"></i> Đổi ảnh khác
@@ -59,7 +59,7 @@ const Grading = {
                 <!-- 4. Hiệu ứng đang chấm -->
                 <div class="grading-loading" id="loading-${lessonId}">
                     <div class="spinner"></div>
-                    <h4>Gemini AI đang phân tích bài giải hình không gian...</h4>
+                    <h4>Math-Safe AI đang phân tích bài giải hình không gian...</h4>
                     <p style="color:var(--text-secondary); font-size:14px; margin-top:6px;">
                         Đang nhận diện chữ viết, kiểm tra tính đúng đắn của định lí và tính toán điểm số...
                     </p>
@@ -264,9 +264,9 @@ const Grading = {
             let resultData = null;
 
             // Lấy API Key từ config.js hoặc localStorage
-            const effectiveKey = (window.CONFIG && window.CONFIG.GEMINI_API_KEY) || this.apiKey || localStorage.getItem('gemini_api_key');
+            const effectiveKey = (window.CONFIG && (window.CONFIG.API_KEY || window.CONFIG.GEMINI_API_KEY)) || this.apiKey || localStorage.getItem('ai_api_key') || localStorage.getItem('gemini_api_key');
             if (effectiveKey) {
-                resultData = await this.callGeminiAPI(this.base64Image, lessonId);
+                resultData = await this.callAIAPI(this.base64Image, lessonId);
             } else {
                 // Giả lập thời gian suy nghĩ của AI 1.8 giây nếu dùng chế độ mô phỏng
                 await new Promise(r => setTimeout(r, 1800));
@@ -282,7 +282,7 @@ const Grading = {
             console.error('Lỗi chấm điểm:', error);
             loadingDiv.classList.remove('show');
             previewSection.classList.add('show');
-            this.showToast(`Lỗi gọi Gemini API: ${error.message}. Chuyển sang chấm mô phỏng.`, 'warning');
+            this.showToast(`Lỗi gọi AI API: ${error.message}. Chuyển sang chấm mô phỏng.`, 'warning');
 
             // Fallback chấm mô phỏng
             const mockData = this.getMockPedagogicalResult(lessonId);
@@ -291,11 +291,8 @@ const Grading = {
         }
     },
 
-    // Gọi Gemini API phân tích ảnh
-    async callGeminiAPI(base64Data, lessonId) {
-        const cleanBase64 = base64Data.split(',')[1];
-        const mimeType = base64Data.split(';')[0].split(':')[1] || 'image/png';
-
+    // Gọi AI API (OpenAI-compatible) phân tích ảnh bài làm tự luận
+    async callAIAPI(base64Data, lessonId) {
         const promptText = `
 Bạn là giám khảo chuyên chấm thi học sinh giỏi và giáo viên Toán THPT 10 năm kinh nghiệm bám sát SGK Kết nối tri thức.
 Bài học đang chấm: "${this.lessonNames[lessonId]}".
@@ -324,30 +321,37 @@ Hãy chấm bài giải tự luận của học sinh trong ảnh theo thang đi�
 }
         `;
 
-        const selectedModel = (window.CONFIG && window.CONFIG.GEMINI_MODEL) || localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
-        const apiBase = (window.CONFIG && window.CONFIG.GEMINI_ENDPOINT) || 'https://generativelanguage.googleapis.com/v1beta/models';
-        const effectiveKey = this.apiKey || (window.CONFIG && window.CONFIG.GEMINI_API_KEY);
-        const endpoint = `${apiBase}/${selectedModel}:generateContent?key=${effectiveKey}`;
+        const selectedModel = (window.CONFIG && (window.CONFIG.MODEL || window.CONFIG.GEMINI_MODEL)) || localStorage.getItem('ai_model') || 'mistralai/mistral-medium-3.5';
+        const apiBase = (window.CONFIG && (window.CONFIG.BASE_URL || window.CONFIG.GEMINI_ENDPOINT)) || 'https://api.xkiro.com/v1';
+        const effectiveKey = this.apiKey || (window.CONFIG && (window.CONFIG.API_KEY || window.CONFIG.GEMINI_API_KEY)) || localStorage.getItem('ai_api_key') || localStorage.getItem('gemini_api_key');
+        const endpoint = `${apiBase.replace(/\/+$/, '')}/chat/completions`;
+
+        // Chuẩn hóa định dạng base64 Data URL
+        const imageUrl = base64Data.startsWith('data:') ? base64Data : `data:image/png;base64,${base64Data}`;
 
         const response = await fetch(endpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${effectiveKey}`
+            },
             body: JSON.stringify({
-                contents: [{
-                    parts: [
-                        { text: promptText },
-                        {
-                            inline_data: {
-                                mime_type: mimeType,
-                                data: cleanBase64
+                model: selectedModel,
+                messages: [
+                    {
+                        role: 'user',
+                        content: [
+                            { type: 'text', text: promptText },
+                            {
+                                type: 'image_url',
+                                image_url: {
+                                    url: imageUrl
+                                }
                             }
-                        }
-                    ]
-                }],
-                generationConfig: {
-                    temperature: 0.2,
-                    topP: 0.8
-                }
+                        ]
+                    }
+                ],
+                temperature: 0.2
             })
         });
 
@@ -357,11 +361,20 @@ Hãy chấm bài giải tự luận của học sinh trong ảnh theo thang đi�
         }
 
         const data = await response.json();
-        const textResp = data.candidates[0].content.parts[0].text;
-        
-        // Làm sạch chuỗi JSON nếu có markdown
-        const cleaned = textResp.replace(/```json/g, '').replace(/```/g, '').trim();
+        const textResp = data.choices[0].message.content;
+
+        // Làm sạch chuỗi JSON nếu có markdown codeblock
+        const cleaned = textResp.replace(/```json/gi, '').replace(/```/g, '').trim();
+        const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            return JSON.parse(jsonMatch[0]);
+        }
         return JSON.parse(cleaned);
+    },
+
+    // Giữ tương thích ngược
+    async callGeminiAPI(base64Data, lessonId) {
+        return this.callAIAPI(base64Data, lessonId);
     },
 
     // Kết quả chấm mô phỏng chuẩn Sư phạm chất lượng cao khi chưa có API key
@@ -430,7 +443,7 @@ Hãy chấm bài giải tự luận của học sinh trong ảnh theo thang đi�
                     </div>
                 </div>
                 <h3 style="margin-top:16px; font-size:20px; color:var(--text);">Phiếu Đánh Giá Chi Tiết</h3>
-                <p style="color:var(--text-secondary); font-size:14px;">Chấm điểm tự động bởi Gemini AI theo chuẩn thang điểm THPT</p>
+                <p style="color:var(--text-secondary); font-size:14px;">Chấm điểm tự động bởi Math-Safe AI theo chuẩn thang điểm THPT</p>
             </div>
 
             <!-- 4 Tiêu chí -->
